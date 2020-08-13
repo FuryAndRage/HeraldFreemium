@@ -25,10 +25,15 @@ def get_news(url):
 			print(img_url, 'esse resultado')
 	except:
 		print('nada')
-	context = {'p':new_p, 
-	'h1':h1.text,
-	'img':img_url[0]}
-	return context
+		if len(img_url) > 0:
+			context = {'p':new_p, 
+				'h1':h1.text,
+				'img':img_url[0]}
+		else:
+			context = {'p':new_p, 
+				'h1':h1.text}
+	
+		return context
 
 @app.route('/', methods=['POST','GET'])
 def main():
@@ -40,5 +45,5 @@ def main():
 	else:
 		return render_template('crawler.html')
 if __name__ == '__main__':
-	app.run(host= '0.0.0.0')
+	app.run(host= '0.0.0.0',debug=True)
 
