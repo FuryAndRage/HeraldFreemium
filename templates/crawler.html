@@ -1,6 +1,4 @@
 {% extends "base.html" %}
-
-
 {% block main %}
 <div class="jumbotron text-center">
 	<form method="post">
@@ -12,12 +10,10 @@
 	</div>
 	{% if res %}
 		<h1>{{res['h1']}}</h1>
-		
 	{% endif %}
 	{% if res%}
 		{% for item in res['p']  %}
 			<p style="margin-bottom:5px">{{item}}</p>
 		{% endfor %}
 	{% endif %}
-	
 {% endblock main %}
