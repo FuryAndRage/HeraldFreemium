@@ -9,31 +9,21 @@ def get_news(url):
 		url.replace('https','http')
 	page = requests.get(url)
 	soup = BeautifulSoup(page.content, 'html.parser')
-	h1 = soup.find('h1')
-	img = soup.find_all('figure')
-	article = soup.find(id = 'article-content')
-	p_article = article.find_all('p')
-	new_p = (item.get_text() for item in p_article)
-
-	img = soup.find_all('figure')
-	img_url = ''
+	h1 = soup.find('a', class_='article-bigread__heading__link')
+	h1_text = ''
 	try:
-		img_url = [i.find('img')['src'] for i in img]
-		print(img_url)
-		if not img_url:
-			img_url = [i.find('video') for i in img]
-			print(img_url, 'esse resultado')
-	except:
-		print('nada')
-		if len(img_url) > 0:
-			context = {'p':new_p, 
-				'h1':h1.text,
-				'img':img_url[0]}
-		else:
-			context = {'p':new_p, 
-				'h1':h1.text}
+		h1_text = h1.text
+	except Exception as e:
+		h1_text = h1
+		
+	article = soup.find('section', class_='article__body')
+	tag_p = article.find_all('p')
 	
-		return context
+	new_p = (item.get_text() for item in tag_p)
+	context = {'p':new_p, 'h1':h1_text}
+	
+	
+	return context
 
 @app.route('/', methods=['POST','GET'])
 def main():
